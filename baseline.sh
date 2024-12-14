@@ -2,15 +2,15 @@
 #
 #
 #SBATCH --account=edu      # The account name for the job.
-#SBATCH --job-name=Ablation    # The job name.
+#SBATCH --job-name=Baseline    # The job name.
 #SBATCH --gres=gpu:2
 #SBATCH -c 1                     # The number of cpu cores to use.
 #SBATCH --time=30:00              # The time the job will take to run (here, 1 min)
 #SBATCH --mem-per-cpu=1gb        # The memory the job will use per cpu core.
  
-torchrun --nproc_per_node=1 --master_port=8080 stanford_alpaca/train.py \
+torchrun --nproc_per_node=1 --master_port=1234 train.py \
     --model_name_or_path "meta-llama/Llama-3.2-1B-Instruct" \
-    --data_path stanford_alpaca/alpaca_data.json \
+    --data_path ./alpaca_data.json \
     --fp16 True \
     --output_dir "./results" \
     --num_train_epochs 3 \
