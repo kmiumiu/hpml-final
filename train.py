@@ -182,6 +182,7 @@ def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer, dat
 def train():
     parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+    print(model_args, data_args, training_args)
 
     model = transformers.AutoModelForCausalLM.from_pretrained(
         model_args.model_name_or_path,
