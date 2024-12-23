@@ -62,11 +62,11 @@ Due to issues with Terremoto, we couldn't get Accelerate/Deepspeed working.
 Baseline training using the Stanford Alpaca configuration took 9 hours 25 minutes on Terremoto with 2 V100 GPUs.
 Wandb logs shows near maximum GPU utilization throughout the run across both GPUs. 
 
-![figure1](https://api.wandb.ai/links/km3635-columbia-university/r16yuwm5)
+[GPU Utilization](https://api.wandb.ai/links/km3635-columbia-university/r16yuwm5)
 
 Oddly, the training loss seems to plateau each epoch, then sharply dropping at the boundaries. Given that the learning rate plot is smoothly declining, it seems unlikely that the optimizer is the issue. More likely is that there is some interal issue with logging where the training loss is not being logged accurately at the step-level. 
 
-![figure2](https://wandb.ai/km3635-columbia-university/huggingface/reports/train-loss-24-12-22-19-11-53---VmlldzoxMDY5NzUwNg)
+[Training Loss](https://wandb.ai/km3635-columbia-university/huggingface/reports/train-loss-24-12-22-19-11-53---VmlldzoxMDY5NzUwNg)
 
-![figure3](https://api.wandb.ai/links/km3635-columbia-university/mirs3m37)
+[Learning Rate](https://api.wandb.ai/links/km3635-columbia-university/mirs3m37)
 
