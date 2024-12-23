@@ -2,21 +2,20 @@
 #
 #
 #SBATCH --account=edu      # The account name for the job.
-#SBATCH --job-name=Baseline    # The job name.
+#SBATCH --job-name=Deepspeed    # The job name.
 #SBATCH --gres=gpu:2
 #SBATCH -c 12                    # The number of cpu cores to use.
-#SBATCH --time=9:30:00              # The time the job will take to run (here, 1 min)
+#SBATCH --time=12:00:00              # The time the job will take to run (here, 1 min)
 #SBATCH --mem-per-cpu=8gb        # The memory the job will use per cpu core.
- 
-torchrun --nproc_per_node=2 --master_port=1234 train_qlora.py \
+
+accelerate launch --config_file=../accelerate_config/fsdp.yaml --num_processes 2 train.py \
     --model_name_or_path "meta-llama/Llama-3.2-1B-Instruct" \
-    --data_path ./alpaca_data.json \
     --fp16 True \
-    --output_dir "./qlora" \
+    --output_dir "./lora" \
     --num_train_epochs 3 \
     --per_device_train_batch_size 1 \
     --per_device_eval_batch_size 1 \
-    --gradient_accumulation_steps 32 \
+    --gradient_accumulation_steps 128 \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
     --save_steps 2000 \
@@ -25,7 +24,11 @@ torchrun --nproc_per_node=2 --master_port=1234 train_qlora.py \
     --weight_decay 0. \
     --warmup_ratio 0.03 \
     --lr_scheduler_type "cosine" \
+    --use_peft True \
     --logging_steps 1 \
-    --fsdp "full_shard auto_wrap" \
-    --fsdp_transformer_layer_cls_to_wrap 'LlamaDecoderLayer' 
+    --lora_r 8 \
+    --lora_alpha 16 \
+    --lora_target_modules "all-linear" \
+    --report_to "wandb"
+
 # End of script
